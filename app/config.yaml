@@ -1,0 +1,21 @@
+policies:
+  scenario_a_support:
+    model: "llama-3.1-8b-instant"   # (Groq) Fast model for support
+    max_latency_ms: 100
+    pii_action: "EDIT"              # Inline redaction
+    hallucination_threshold: 0.70   # Relaxed threshold
+    ambiguity_action: "PASS"        # Support bots can guess or pass to FAQ
+
+  scenario_b_internal:
+    model: "llama-3.1-8b-instant"   # (Groq) Fast model for internal docs
+    max_latency_ms: 150
+    pii_action: "EDIT"
+    hallucination_threshold: 0.90   # Strict fact-checking against HR docs
+    ambiguity_action: "BLOCK"       # Block if it makes up internal policies
+
+  scenario_c_finance:
+    model: "gemini-3.1-pro"         # (Google) Heavy reasoning model
+    max_latency_ms: 2000            # Async allowed for finance
+    pii_action: "BLOCK"             # Zero tolerance for PII leaks
+    hallucination_threshold: 0.95   # Ultra-strict verification
+    ambiguity_action: "ESCALATE"    # Route to human review queue

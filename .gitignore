@@ -1,0 +1,21 @@
+# Environment variables and secrets
+.env
+*.env
+
+# Python cache & build files
+__pycache__/
+*.py[cod]
+*$py.class
+build/
+dist/
+*.egg-info/
+
+# Virtual Environments
+venv/
+.venv/
+env/
+
+# Vector index & temporary storage
+*.faiss
+*.pkl
+.DS_Store
