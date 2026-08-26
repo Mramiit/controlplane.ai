@@ -1,9 +1,11 @@
 import yaml
 from typing import Dict, Any
+from pathlib import Path
 
 class PolicyManager:
     def __init__(self, config_path: str = "app/config.yaml"):
-        self.config_path = config_path
+        # Use Pathlib to ensure it finds the file no matter where you run the script from
+        self.config_path = Path(__file__).resolve().parent.parent / "config.yaml"
         self.policies = self._load_policies()
 
     def _load_policies(self) -> Dict[str, Any]:
@@ -29,7 +31,9 @@ class PolicyManager:
             "max_latency_ms": 500,
             "pii_action": "BLOCK",
             "hallucination_threshold": 0.95,
-            "ambiguity_action": "ESCALATE"
+            "ambiguity_action": "ESCALATE",
+            "semantic_cache_enabled": False, 
+            "similarity_threshold": 0.95
         }
         return self.policies.get(scenario, fallback_policy)
 
