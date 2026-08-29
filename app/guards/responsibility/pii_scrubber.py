@@ -27,8 +27,18 @@ class PIIScrubber:
                 detected_entities.append(entity_type)
                 scrubbed_text = re.sub(pattern, f"[{entity_type}_REDACTED]", scrubbed_text)
 
-        # 2. Presidio NLP Analyzer Pass (Detects Names, SSN, API Keys, etc.)
-        results = self.analyzer.analyze(text=scrubbed_text, language="en")
+        # 2. Presidio NLP Analyzer Pass
+        # Explicitly restrict entities to prevent over-redaction of regular dates/times
+        results = self.analyzer.analyze(
+            text=scrubbed_text, 
+            language="en",
+            entities=["CREDIT_CARD", "EMAIL_ADDRESS", "PHONE_NUMBER", "PERSON", "US_SSN", "US_BANK_NUMBER"]
+        )
+        
+        # CRITICAL FIX: Sort results in reverse order. 
+        # If you replace text from left to right, the string length changes and breaks the remaining index positions.
+        results = sorted(results, key=lambda x: x.start, reverse=True)
+        
         for res in results:
             if res.score > 0.6:
                 detected_entities.append(res.entity_type)

@@ -24,18 +24,27 @@ class ControlPlaneEngine:
 
     def _initialize_knowledge_bases(self):
         """Pre-loads scenario documents into the RAG vector store if present."""
+        # Get the absolute path to your controlplane.ai root folder
+        base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+        
         data_paths = [
-            "data/scenario_a_support/ecommerce_faq.txt",
-            "data/scenario_b_internal/employee_handbook.md",
+            os.path.join(base_dir, "data", "scenario_a_support", "ecommerce_faq.txt"),
+            os.path.join(base_dir, "data", "scenario_b_internal", "employee_handbook.md"),
         ]
+        
+        print("\n--- RAG INITIALIZATION ---")
         for path in data_paths:
             if os.path.exists(path):
+                print(f"SUCCESS: Loaded RAG document -> {path}")
                 self.rag_pipeline.load_document(path)
+            else:
+                print(f"WARNING: File not found -> {path}")
+        print("--------------------------\n")
 
     async def process_request(self, prompt: str, scenario: str = "scenario_a_support") -> Dict[str, Any]:
         start_time = time.perf_counter()
         policy = self.policy_manager.get_policy(scenario)
-        model_name = policy.get("model", "llama-3.1-8b-instant")
+        model_name = policy.get("model", "openai/gpt-oss-20b")
 
         # Step 1: Ingress PII Scrubbing on User Prompt
         scrubbed_prompt, prompt_has_pii, _ = self.pii_scrubber.scrub(prompt)
@@ -56,7 +65,7 @@ class ControlPlaneEngine:
             }
 
         # Step 3: Context Retrieval via RAG Pipeline
-        context = self.rag_pipeline.retrieve_context(scrubbed_prompt, top_k=2)
+        context = self.rag_pipeline.retrieve_context(scrubbed_prompt, top_k=5)
 
         # Step 4: Upstream LLM Generation
         llm_output = await self.llm_client.call_model(model_name, scrubbed_prompt, context)

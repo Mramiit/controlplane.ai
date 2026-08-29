@@ -32,6 +32,11 @@ if st.button("Send Request to Gateway"):
             try:
                 # Call the FastAPI backend
                 res = requests.post("http://127.0.0.1:8000/v1/chat/completions", json=payload, headers=headers)
+                
+                if res.status_code != 200:
+                    st.error(f"Backend Error (HTTP {res.status_code}): {res.text}")
+                    st.stop()
+                    
                 data = res.json()
                 
                 # Display Results

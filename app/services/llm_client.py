@@ -4,7 +4,6 @@ from groq import AsyncGroq
 from google import genai
 from dotenv import load_dotenv
 
-
 load_dotenv()
 
 class LLMClient:
@@ -23,9 +22,10 @@ class LLMClient:
         """
         start_time = time.perf_counter()
 
-        if model_name.startswith("llama-"):
+        # Added 'gpt-oss' so it routes the OpenAI OSS model correctly to Groq
+        if "llama" in model_name.lower() or "gpt-oss" in model_name.lower():
             result = await self._call_groq(model_name, prompt, context)
-        elif model_name.startswith("gemini-"):
+        elif "gemini" in model_name.lower():
             result = self._call_gemini(model_name, prompt, context)
         else:
             raise ValueError(f"Unsupported model provider for {model_name}")
@@ -40,7 +40,11 @@ class LLMClient:
         if not self.groq_client:
             raise ValueError("GROQ_API_KEY is not set in your .env file.")
             
-        system_content = "You are a helpful enterprise assistant."
+        system_content = (
+            "You are a strict enterprise customer support assistant. "
+            "You must answer the user's question using ONLY the information provided in the Context below. "
+            "If the answer is not in the Context, say 'I do not have that information.' Do not guess."
+        )
         if context:
             system_content += f"\n\nContext:\n{context}"
 
