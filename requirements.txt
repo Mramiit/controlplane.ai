@@ -10,5 +10,6 @@ langchain-community==0.0.29
 faiss-cpu==1.8.0
 sentence-transformers==2.5.1
 torch==2.2.1
+transformers==4.38.2
 presidio-analyzer==2.2.353
 streamlit==1.32.2
