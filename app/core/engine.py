@@ -27,16 +27,16 @@ class ControlPlaneEngine:
         # Get the absolute path to your controlplane.ai root folder
         base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
         
-        data_paths = [
-            os.path.join(base_dir, "data", "scenario_a_support", "ecommerce_faq.txt"),
-            os.path.join(base_dir, "data", "scenario_b_internal", "employee_handbook.md"),
-        ]
+        data_paths = {
+            "scenario_a_support": os.path.join(base_dir, "data", "scenario_a_support", "ecommerce_faq.txt"),
+            "scenario_b_internal": os.path.join(base_dir, "data", "scenario_b_internal", "employee_handbook.md"),
+        }
         
         print("\n--- RAG INITIALIZATION ---")
-        for path in data_paths:
+        for scenario, path in data_paths.items():
             if os.path.exists(path):
-                print(f"SUCCESS: Loaded RAG document -> {path}")
-                self.rag_pipeline.load_document(path)
+                print(f"SUCCESS: Loaded RAG document -> {path} [{scenario}]")
+                self.rag_pipeline.load_document(path, scenario=scenario)
             else:
                 print(f"WARNING: File not found -> {path}")
         print("--------------------------\n")
@@ -65,7 +65,7 @@ class ControlPlaneEngine:
             }
 
         # Step 3: Context Retrieval via RAG Pipeline
-        context = self.rag_pipeline.retrieve_context(scrubbed_prompt, top_k=5)
+        context = self.rag_pipeline.retrieve_context(scrubbed_prompt, scenario=scenario, top_k=5)
 
         # Step 4: Upstream LLM Generation
         llm_output = await self.llm_client.call_model(model_name, scrubbed_prompt, context)
