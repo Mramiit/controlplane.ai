@@ -62,8 +62,9 @@ controlplane.ai/
 │   └── app.py                     # Streamlit frontend with Plotly
 ├── requirements.txt
 └── README.md
+```
+## Installation & Setup
 
-Installation & Setup
 Clone the repository
 
 Bash
