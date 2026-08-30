@@ -14,7 +14,7 @@ policies:
     ambiguity_action: "BLOCK"       # Block if it makes up internal policies
 
   scenario_c_finance:
-    model: "gemini-3.1-pro"         # (Google) Heavy reasoning model
+    model: "gemini-3.6-flash"         # (Google) Heavy reasoning model
     max_latency_ms: 2000            # Async allowed for finance
     pii_action: "BLOCK"             # Zero tolerance for PII leaks
     hallucination_threshold: 0.95   # Ultra-strict verification
