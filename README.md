@@ -4,6 +4,10 @@
 
 ControlPlane.ai is a multi-tenant reverse proxy designed to evaluate AI responses in real time and flag or block bias, hallucination risk, or privacy leaks before they reach a user[cite: 1]. Developed for the Accenture Innovation Challenge 2026 (Round 2 - Prototype Development)[cite: 1], this middleware sits between enterprise frontends and external LLM APIs (like Google Gemini and OpenAI). It intercepts traffic to enforce deterministic safety rules, track telemetry, and optimize API costs without requiring changes to the underlying foundation models.
 
+## Demo Video
+
+https://drive.google.com/file/d/1vx89-zbDwS0mrpJS_ff1IcyxGZ4yH9AG/view?usp=drivesdk
+
 ## Core Architecture
 
 ControlPlane acts as a unified `POST /v1/chat/completions` endpoint. Instead of routing directly to an LLM, requests pass through a YAML-configured governance pipeline.
