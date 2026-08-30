@@ -64,39 +64,51 @@ controlplane.ai/
 └── README.md
 ```
 ## Installation & Setup
-
+```
 Clone the repository
 
 Bash
 git clone [https://github.com/yourusername/controlplane.ai.git](https://github.com/yourusername/controlplane.ai.git)
 cd controlplane.ai
-
+```
+```
 Set up a virtual environment
 
 Bash
 python -m venv venv
 source venv/bin/activate  # On Windows use: venv\Scripts\activate
-Install dependencies
 
+```
+```
+Install dependencies
 Bash
 pip install -r requirements.txt
+
+```
+```
 Configure Environment Variables
 Create a .env file in the root directory and add your API keys:
-
 Code snippet
 GEMINI_API_KEY=your_google_genai_key
 OPENAI_API_KEY=your_openai_key
+
+```
+```
 Start the FastAPI Backend
 
 Bash
 python -m app.main
 The server will start on http://127.0.0.1:8000 and initialize the FAISS vector stores.
-
+```
+```
 Start the Streamlit Dashboard
 Open a new terminal window, activate the venv, and run:
 
 Bash
 streamlit run dashboard/app.py
+
+```
+```
 Using the Dashboard
 Select an Active Scenario Policy from the left sidebar.
 
@@ -109,3 +121,4 @@ Observe the Gateway Resolution Output for action tags (PASS, EDIT, BLOCK, ESCALA
 Review the Live Telemetry & Cost Analytics charts to see latency breakdowns (Middleware vs. LLM compute) and token consumption drops during cache hits.
 
 Inspect the Payload Inspection & Audit Trail tab to view the raw JSON data and governance violations flagged by the dispatcher.
+```
