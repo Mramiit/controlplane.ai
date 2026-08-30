@@ -6,7 +6,8 @@ ControlPlane.ai is a multi-tenant reverse proxy designed to evaluate AI response
 
 ## Demo Video
 
-https://drive.google.com/file/d/1vx89-zbDwS0mrpJS_ff1IcyxGZ4yH9AG/view?usp=drivesdk
+[![Watch the ControlPlane.ai Demo](https://drive.google.com/file/d/12GWhx6tD3u03eddUMXM3GtzGeatrhvao/view?usp=drivesdk)](https://drive.google.com/file/d/1vx89-zbDwS0mrpJS_ff1IcyxGZ4yH9AG/view?usp=drivesdk)
+
 
 ## Core Architecture
 
